@@ -21,4 +21,9 @@ class Constants {
   static const double h_1 = 24;
   static const double h_2 = 18;
   static const double h_3 = 16;
+
+  static const double emote_size = 30;
+
+  static const Color color_grey = Color.fromARGB(255, 158, 158, 158);
+  static const Color color_light_grey = Color.fromARGB(255, 204, 204, 204);
 }

@@ -11,6 +11,7 @@ class AppThemes{
   ThemeData ligthTheme() {
     return ThemeData(
       brightness: Brightness.light,
+      primaryColor: Colors.white,
       scaffoldBackgroundColor: Colors.white
     );
   }
