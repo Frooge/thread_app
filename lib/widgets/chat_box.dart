@@ -22,11 +22,18 @@ const ChatBox({ Key? key }) : super(key: key);
   }
 
   Expanded chatInput() {
-    return const Expanded(
-      child: TextField(
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          hintText: 'Enter a message',
+    return Expanded(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxHeight: 300,
+        ),
+        child: const TextField(
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'Enter a message',
+          ),
+          minLines: 1,
+          maxLines: 3,
         ),
       )
     );
