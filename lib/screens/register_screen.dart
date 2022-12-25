@@ -24,6 +24,7 @@ const RegisterScreen({ Key? key }) : super(key: key);
                 signInHeader(),
                 const SignForm(
                   formHeight: 250,
+                  isLogin: false,
                   submitText: Text('Sign Up'),
                 ),
                 callToAction(context)

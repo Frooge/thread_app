@@ -23,6 +23,7 @@ class LoginScreen extends StatelessWidget {
                 signInHeader(),
                 const SignForm(
                   formHeight: 250,
+                  isLogin: true,
                   submitText: Text('Sign in'),
                 ),
                 callToAction(context)

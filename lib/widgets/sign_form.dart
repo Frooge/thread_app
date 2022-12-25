@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:thread_app/screens/home_screen.dart';
 import 'package:thread_app/utils/constants.dart';
 
 class SignForm extends StatefulWidget {
   const SignForm({
     Key? key,
     required this.submitText,
+    required this.isLogin,
     this.formHeight = 250.0,
+    
   }) : super(key: key);
 
   final Text submitText;
+  final bool isLogin;
   final double formHeight;
-  
 
   @override
   State<SignForm> createState() => _SignFormState();
@@ -44,7 +47,7 @@ class _SignFormState extends State<SignForm> {
               controller: _controllerPassword,
               isPassword: true
             ),
-            submitButton(),
+            submitButton(context),
             Container(child: errorText())
           ],
         ),
@@ -61,10 +64,20 @@ class _SignFormState extends State<SignForm> {
     );
   }
 
-  Widget submitButton() {
+  Widget submitButton(BuildContext context) {
     void submitValidation() {
       if(!_formKey.currentState!.validate()) {
         return;
+      }
+
+      if(widget.isLogin) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          )
+        );
+      } else {
+        Navigator.of(context).pop();
       }
     }
 
