@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 
+import '../providers/auth.dart';
 import '../utils/constants.dart';
+import '../utils/routes.dart';
 import '../widgets/back_app_bar.dart';
 import '../widgets/user_profile.dart';
 
 
 class SettingsScreen extends StatelessWidget {
-const SettingsScreen({ Key? key }) : super(key: key);
+  const SettingsScreen({ Key? key }) : super(key: key);
+
+  Future<void> signOut(BuildContext context, VoidCallback onSuccess) async {
+    await Auth().signOut();
+    onSuccess.call();
+  }
 
   @override
   Widget build(BuildContext context){
@@ -23,14 +30,25 @@ const SettingsScreen({ Key? key }) : super(key: key);
           menuDivider(),
           menuTile('Toggle dark mode (WIP)'),
           menuDivider(),
-          menuTile('Log Out', color: Colors.redAccent),
+          menuTile(
+            'Log Out',
+            color: Colors.redAccent,
+            onTap: () {
+              signOut(context, () {
+                Navigator.pushReplacementNamed(
+                  context,
+                  Routes.login
+                );
+              });
+            }
+          ),
           menuDivider(),
         ],
       )
     );
   }
 
-  Widget menuTile(String title, {Color color = Colors.white}) {
+  Widget menuTile(String title, {Color color = Colors.white, void Function()? onTap}) {
     return ListTile(
       title: Center(
         child: Text(
@@ -41,9 +59,7 @@ const SettingsScreen({ Key? key }) : super(key: key);
           ),
         ),
       ),
-      onTap: () {
-        
-      },
+      onTap: onTap,
     );
   }
 

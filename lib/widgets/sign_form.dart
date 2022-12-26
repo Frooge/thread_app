@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:thread_app/utils/constants.dart';
 
+import '../providers/auth.dart';
 import '../utils/routes.dart';
 
 class SignForm extends StatefulWidget {
@@ -28,6 +30,40 @@ class _SignFormState extends State<SignForm> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
+  Future<void> signInWithEmailAndPassword(BuildContext context, VoidCallback onSuccess) async {
+    try {
+      setState(() {
+        errorMessage = '';
+      });
+      await Auth().signInWithEmailAndPassword(
+        email: _controllerEmail.text,
+        password: _controllerPassword.text
+      );
+      onSuccess.call();
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
+
+  Future<void> createUserWithEmailAndPassword(BuildContext context, VoidCallback onSuccess) async {
+    try {
+      setState(() {
+        errorMessage = '';
+      });
+      await Auth().createUserWithEmailAndPassword(
+        email: _controllerEmail.text,
+        password: _controllerPassword.text
+      );
+      onSuccess.call();
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -52,47 +88,6 @@ class _SignFormState extends State<SignForm> {
             Container(child: errorText())
           ],
         ),
-      ),
-    );
-  }
-
-  Text errorText() {
-    return Text(
-      errorMessage == '' ? '' : '$errorMessage',
-      style: const TextStyle(
-        color: Colors.red,
-      ),
-    );
-  }
-
-  Widget submitButton(BuildContext context) {
-    void submitValidation() {
-      if(!_formKey.currentState!.validate()) {
-        return;
-      }
-
-      if(widget.isLogin) {
-        Navigator.pushReplacementNamed(
-          context,
-          Routes.home
-        );
-      } else {
-        Navigator.pop(context);
-      }
-    }
-
-    return Padding(
-      padding: Constants.pt_2,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          textStyle: const TextStyle(
-            fontSize: Constants.h_3
-          ),
-          backgroundColor: Colors.green,
-          minimumSize: const Size.fromHeight(50),
-        ),
-        onPressed: submitValidation,
-        child: widget.submitText
       ),
     );
   }
@@ -133,6 +128,52 @@ class _SignFormState extends State<SignForm> {
       obscureText: false,
       validator: validateText,
       controller: controller,
+    );
+  }
+
+  Text errorText() {
+    return Text(
+      errorMessage == '' ? '' : '$errorMessage',
+      style: const TextStyle(
+        color: Colors.red,
+      ),
+    );
+  }
+
+  Widget submitButton(BuildContext context) {
+    void submitValidation() async {
+      if(!_formKey.currentState!.validate()) {
+        return;
+      }
+
+      if(widget.isLogin) {
+        await signInWithEmailAndPassword(context, () {
+          Navigator.pushReplacementNamed(
+            context,
+            Routes.home
+          );
+        });
+        
+      } else {
+        await createUserWithEmailAndPassword(context, () {
+          Navigator.pop(context);
+        });
+      }
+    }
+
+    return Padding(
+      padding: Constants.pt_2,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          textStyle: const TextStyle(
+            fontSize: Constants.h_3
+          ),
+          backgroundColor: Colors.green,
+          minimumSize: const Size.fromHeight(50),
+        ),
+        onPressed: submitValidation,
+        child: widget.submitText
+      ),
     );
   }
 }

@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thread_app/screens/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
+import 'providers/auth.dart';
 import 'providers/theme_provider.dart';
+import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
 import 'utils/app_themes.dart';
 import 'utils/routes.dart';
 
@@ -41,9 +44,22 @@ const MyApp({ Key? key }) : super(key: key);
           darkTheme: AppThemes().darkTheme(),
           debugShowCheckedModeBanner: false,
           routes: Routes.getRoutes(),
-          home: const LoginScreen(),
+          home: widgetTree(),
         );
       }
+    );
+  }
+
+  StreamBuilder<User?> widgetTree() {
+    return StreamBuilder(
+      stream: Auth().authStateChanges,
+      builder: ((context, snapshot) {
+        if(snapshot.hasData) {
+          return const HomeScreen();
+        } else {
+          return const LoginScreen();
+        }
+      }),
     );
   }
 }
