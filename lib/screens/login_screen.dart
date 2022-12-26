@@ -44,7 +44,7 @@ class LoginScreen extends StatelessWidget {
         const Text ('Don\'t have an account?'),
         TextButton(
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               SlidePush(
                 widget: const RegisterScreen(),
