@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thread_app/screens/home_screen.dart';
 import 'package:thread_app/utils/constants.dart';
 
 import '../utils/routes.dart';
@@ -73,12 +72,12 @@ class _SignFormState extends State<SignForm> {
       }
 
       if(widget.isLogin) {
-        Navigator.pushNamed(
+        Navigator.pushReplacementNamed(
           context,
           Routes.home
         );
       } else {
-        Navigator.of(context).pop();
+        Navigator.pop(context);
       }
     }
 

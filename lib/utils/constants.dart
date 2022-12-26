@@ -7,7 +7,7 @@ class Constants {
   static const EdgeInsets p_2 = EdgeInsets.all(16);
   static const EdgeInsets p_3 = EdgeInsets.all(24);
 
-  static const EdgeInsets p_1_nr = EdgeInsets.only(top: 8, bottom: 8, right: 8);
+  static const EdgeInsets pr_1 = EdgeInsets.only(right: 8);
 
   static const EdgeInsets px_1 = EdgeInsets.only(left: 8, right: 8);
   static const EdgeInsets px_2 = EdgeInsets.only(left: 16, right: 16);

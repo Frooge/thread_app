@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thread_app/screens/thread_screen.dart';
 import 'package:thread_app/screens/settings_screen.dart';
 import '../animations/slide_push.dart';
 import '../providers/theme_provider.dart';
 import '../utils/routes.dart';
-import 'toggle_theme_btn.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   BaseAppBar({
@@ -21,7 +19,6 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: title,
-      leading: navigationList(context),
       actions: [
         navigationSettings(context),
         // modeIndicator(context),
@@ -44,22 +41,6 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         },
         icon: const Icon(Icons.settings)
       );
-  }
-
-  IconButton navigationList(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          SlidePush(
-            widget: const ThreadScreen(),
-            direction: AxisDirection.right,
-            routeName: Routes.thread
-          )
-        );
-      },
-      icon: const Icon(Icons.list),
-    );
   }
 
   Center modeIndicator(BuildContext context) {

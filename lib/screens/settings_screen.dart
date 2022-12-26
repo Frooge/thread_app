@@ -19,36 +19,31 @@ const SettingsScreen({ Key? key }) : super(key: key);
         children: [
           const UserProfile(),
           menuDivider(),
-          menuText('Help'),
+          menuTile('Help'),
           menuDivider(),
-          menuText('Toggle dark mode (WIP)'),
+          menuTile('Toggle dark mode (WIP)'),
           menuDivider(),
-          menuText('Log Out', color: Colors.redAccent),
+          menuTile('Log Out', color: Colors.redAccent),
           menuDivider(),
         ],
       )
     );
   }
 
-  Widget menuText(String text, {Color color = Colors.white}) {
-    return TextButton(
-      style: TextButton.styleFrom(
-        padding: EdgeInsets.zero,
-        splashFactory: NoSplash.splashFactory,
-      ),
-      onPressed: () {
-        
-      },
-      child: Padding(
-        padding: Constants.py_2,
+  Widget menuTile(String title, {Color color = Colors.white}) {
+    return ListTile(
+      title: Center(
         child: Text(
-          text,
+          title,
           style: TextStyle(
             fontSize: Constants.h_3,
             color: color,
           ),
         ),
-      )
+      ),
+      onTap: () {
+        
+      },
     );
   }
 

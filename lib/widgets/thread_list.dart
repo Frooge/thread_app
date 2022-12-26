@@ -10,17 +10,14 @@ class ThreadList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Padding(
-        padding: Constants.pt_2,
-        child: Scrollbar(
-          child: Padding(
-            padding: Constants.p_1_nr,
-            child: ListView.builder(
-              itemCount: 15,
-              itemBuilder: (context, index) {
-                return threadCard();
-              },
-            ),
+      child: Scrollbar(
+        child: Padding(
+          padding: Constants.pr_1,
+          child: ListView.builder(
+            itemCount: 15,
+            itemBuilder: (context, index) {
+              return threadCard();
+            },
           ),
         ),
       ),
@@ -29,14 +26,19 @@ class ThreadList extends StatelessWidget {
 
   Card threadCard() {
     return Card(
-      child: Padding(
-        padding: Constants.p_1,
-        child: Row(
-          children: [
-            threadName(),
-            const Spacer(),
-            favoriteBtn(),
-          ],
+      child: InkWell(
+        onTap: () {
+
+        },
+        child: Padding(
+          padding: Constants.p_1,
+          child: Row(
+            children: [
+              threadName(),
+              const Spacer(),
+              favoriteBtn(),
+            ],
+          ),
         ),
       )
     );

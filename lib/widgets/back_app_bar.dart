@@ -12,9 +12,9 @@ class BackAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       leading: IconButton(
         onPressed: () {
-          Navigator.of(context).pop();
+          Navigator.pop(context);
         },
-        icon: Icon(Icons.close),
+        icon: const Icon(Icons.close),
       ),
       elevation: 0,
       backgroundColor: Colors.transparent,

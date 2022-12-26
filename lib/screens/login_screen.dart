@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thread_app/screens/home_screen.dart';
 import '../animations/slide_push.dart';
 import '../utils/constants.dart';
 import '../utils/routes.dart';
