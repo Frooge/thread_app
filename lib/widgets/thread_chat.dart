@@ -29,31 +29,31 @@ const ThreadChat({ Key? key }) : super(key: key);
   Widget chatMessage(BuildContext context, int index) {
     return Container(
       margin: Constants.pb_1,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          chatUser(),
-          chatText(index, 'person $index'),
-        ],
+      child: Card(
+        color: Colors.grey.shade800,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            chatUser(),
+            chatText(index, 'person $index'),
+          ],
+        ),
       ),
     );
   }
 
   Padding chatUser() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 70),
-      child: Padding(
+      padding: Constants.plt_1,
+      child: Container(
         padding: Constants.p_1,
-        child: Container(
-          padding: Constants.p_1,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3),
-            color:Colors.grey.shade700,
-          ),
-          child: const Icon(Icons.person)
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(3),
+          color:Colors.grey.shade700,
         ),
+        child: const Icon(Icons.person)
       ),
     );
   }
@@ -61,21 +61,18 @@ const ThreadChat({ Key? key }) : super(key: key);
   Expanded chatText(int index, String person) {
 
     return Expanded(
-      child: Card(
-        color: Colors.grey.shade800,
-        child: Container(
-          padding: Constants.p_1,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              sender(person),
-              textMessage(index),
-              heartEmote()
-            ],
-          )
-        ),
+      child: Container(
+        padding: Constants.p_1,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            sender(person),
+            textMessage(index),
+            heartEmote()
+          ],
+        )
       ),
     );
   }
@@ -91,7 +88,7 @@ const ThreadChat({ Key? key }) : super(key: key);
 
   Text textMessage(int index) {
     return Text(
-      '$index Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+      '$index Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et',
       style: const TextStyle(
         fontSize: Constants.h_3,
       ),
