@@ -19,13 +19,8 @@ class UserModel {
     required this.likedMessagesList
   });
 
-  void setAnonymousName(String name) {
-    anonymousName = name;
-  }
-
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'anonymousId': anonymousId,
       'anonymousName': anonymousName,
       'email': email,

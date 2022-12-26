@@ -16,12 +16,10 @@ const HomeScreen({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
-    User? currentUser = Auth().currentUser;
-    UserServices().checkIfUserExists(currentUser);
 
     return MultiProvider(
       providers: [
-        StreamProvider<UserModel>.value(value: UserServices().getCurrentUser(currentUser!.uid), initialData: UserModel.empty(),),
+        StreamProvider<UserModel>.value(value: UserServices().getCurrentUser(Auth().currentUser!.uid), initialData: UserModel.empty(),),
       ],
       child: Builder(
         builder: (BuildContext context) {
