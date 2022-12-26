@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "963443164318",
+    "project_id": "thread-app-52cab",
+    "storage_bucket": "thread-app-52cab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:963443164318:android:9cd310ad52192d477ee78f",
+        "android_client_info": {
+          "package_name": "com.example.thread_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "963443164318-6sajqha404h1ej25enbbhu39b1s9nlvm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe_aSXk6JW-zOCM3r_15ddblybCscDVdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "963443164318-6sajqha404h1ej25enbbhu39b1s9nlvm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

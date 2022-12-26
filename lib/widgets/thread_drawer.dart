@@ -28,8 +28,8 @@ const ThreadDrawer({ Key? key }) : super(key: key);
 
   Padding headerPadding(BuildContext context) {
     return Padding(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 24)
-          );
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 24)
+    );
   }
   
 }
