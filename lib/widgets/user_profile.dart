@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../models/user_model.dart';
 import '../utils/constants.dart';
 
 class UserProfile extends StatelessWidget {
@@ -9,19 +11,24 @@ class UserProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: Constants.p_3,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          userImage(),
-          userName(),
-          const Spacer(),
-          resetBtn(),
-        ],
-      ),
+    return Builder(
+      builder: (context) {
+        UserModel user = context.watch<UserModel>();
+        return Padding(
+          padding: Constants.p_3,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              userImage(),
+              userName(username: user.anonymousName,email: user.email),
+              const Spacer(),
+              resetBtn(),
+            ],
+          ),
+        );
+      }
     );
   }
 
@@ -39,7 +46,7 @@ class UserProfile extends StatelessWidget {
     );
   }
 
-  Padding userName() {
+  Padding userName({required String username, required String email}) {
     return Padding(
       padding: Constants.px_2,
       child: Column(
@@ -48,14 +55,14 @@ class UserProfile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Anon.1234',
-            style: TextStyle(
+            username,
+            style: const TextStyle(
               fontSize: Constants.h_2
             ),
           ),
           Text(
-            'user@mail.com',
-            style: TextStyle(
+            email,
+            style: const TextStyle(
               fontSize: Constants.h_3
             ),
           ),
