@@ -42,7 +42,6 @@ const ThreadChat({ Key? key }) : super(key: key);
   }
 
   Padding chatUser() {
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 70),
       child: Padding(
@@ -71,50 +70,62 @@ const ThreadChat({ Key? key }) : super(key: key);
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Sent by @$person',
-                style: const TextStyle(
-                  color: Constants.color_grey,
-                ),
-              ),
-              Text(
-                '$index Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-                style: const TextStyle(
-                  fontSize: Constants.h_3,
-                ),
-              ),
-              Padding(
-                padding: Constants.pt_1,
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        color: Colors.grey.shade600,
-                      ),
-                      width: Constants.emote_size,
-                      height: Constants.emote_size,
-                      child: IconButton(
-                        onPressed: () {
-                          
-                        },
-                        icon: const Icon(
-                          Icons.favorite,
-                          size: Constants.h_3,
-                          color: Colors.redAccent,
-                        ),
-                      ),
-                    ),
-                    const Padding(
-                      padding: Constants.pt_1,
-                      child: Text('0')
-                    )
-                  ],
-                ),
-              )
+              sender(person),
+              textMessage(index),
+              heartEmote()
             ],
           )
         ),
+      ),
+    );
+  }
+
+  Text sender(String person) {
+    return Text(
+      'Sent by @$person',
+      style: const TextStyle(
+        color: Constants.color_grey,
+      ),
+    );
+  }
+
+  Text textMessage(int index) {
+    return Text(
+      '$index Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+      style: const TextStyle(
+        fontSize: Constants.h_3,
+      ),
+    );
+  }
+
+  Padding heartEmote() {
+    return Padding(
+      padding: Constants.pt_1,
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(3),
+              color: Colors.grey.shade600,
+            ),
+            width: Constants.emote_size,
+            height: Constants.emote_size,
+            child: IconButton(
+              onPressed: () {
+                
+              },
+              icon: const Icon(
+                Icons.favorite,
+                size: Constants.h_3,
+                color: Colors.redAccent,
+              ),
+            ),
+          ),
+          const Padding(
+            padding: Constants.pt_1,
+            child: Text('0')
+          )
+        ],
       ),
     );
   }

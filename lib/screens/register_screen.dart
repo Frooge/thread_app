@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thread_app/widgets/back_app_bar.dart';
 import '../utils/constants.dart';
 import '../widgets/sign_form.dart';
 
@@ -8,11 +9,7 @@ const RegisterScreen({ Key? key }) : super(key: key);
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: BackAppBar(),
       body: Padding(
         padding: Constants.px_3,
         child: Center(

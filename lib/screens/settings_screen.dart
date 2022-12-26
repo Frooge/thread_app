@@ -23,7 +23,7 @@ const SettingsScreen({ Key? key }) : super(key: key);
           menuDivider(),
           menuText('Toggle dark mode (WIP)'),
           menuDivider(),
-          logOutBtn(),
+          menuText('Log Out', color: Colors.redAccent),
           menuDivider(),
         ],
       )
@@ -31,27 +31,24 @@ const SettingsScreen({ Key? key }) : super(key: key);
   }
 
   Widget menuText(String text, {Color color = Colors.white}) {
-    return Padding(
-      padding: Constants.py_2,
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: Constants.h_3,
-          color: color,
-        ),
-      ),
-    );
-  }
-
-  TextButton logOutBtn() {
     return TextButton(
       style: TextButton.styleFrom(
         padding: EdgeInsets.zero,
+        splashFactory: NoSplash.splashFactory,
       ),
       onPressed: () {
         
       },
-      child: menuText('Log out', color: Colors.redAccent)
+      child: Padding(
+        padding: Constants.py_2,
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: Constants.h_3,
+            color: color,
+          ),
+        ),
+      )
     );
   }
 

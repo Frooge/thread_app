@@ -48,7 +48,7 @@ class UserProfile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Anon.12345',
+            'Anon.1234',
             style: TextStyle(
               fontSize: Constants.h_2
             ),
