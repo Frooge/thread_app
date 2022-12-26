@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:thread_app/services/user_services.dart';
 
 import 'firebase_options.dart';
 import 'providers/auth.dart';

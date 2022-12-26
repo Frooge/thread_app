@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:thread_app/models/user_model.dart';
 import 'package:thread_app/utils/constants.dart';
+import 'package:thread_app/utils/generate_random.dart';
 
 import '../providers/auth.dart';
+import '../services/user_services.dart';
 import '../utils/routes.dart';
 
 class SignForm extends StatefulWidget {
@@ -147,7 +150,7 @@ class _SignFormState extends State<SignForm> {
       }
 
       if(widget.isLogin) {
-        await signInWithEmailAndPassword(context, () {
+        await signInWithEmailAndPassword(context, () async {
           Navigator.pushReplacementNamed(
             context,
             Routes.home
