@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thread_app/screens/list_screen.dart';
+import 'package:thread_app/screens/thread_screen.dart';
 import 'package:thread_app/screens/settings_screen.dart';
 import '../animations/slide_push.dart';
 import '../providers/theme_provider.dart';
+import '../utils/routes.dart';
 import 'toggle_theme_btn.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -32,8 +33,13 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   IconButton navigationSettings(BuildContext context) {
     return IconButton(
         onPressed: () {
-          Navigator.of(context).push(
-            SlidePush(widget: const SettingsScreen(), direction: AxisDirection.left)
+          Navigator.push(
+            context,
+            SlidePush(
+              widget: const SettingsScreen(),
+              direction: AxisDirection.left,
+              routeName: Routes.settings
+            )
           );
         },
         icon: const Icon(Icons.settings)
@@ -43,8 +49,13 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   IconButton navigationList(BuildContext context) {
     return IconButton(
       onPressed: () {
-        Navigator.of(context).push(
-          SlidePush(widget: const MenuScreen(), direction: AxisDirection.right)
+        Navigator.push(
+          context,
+          SlidePush(
+            widget: const ThreadScreen(),
+            direction: AxisDirection.right,
+            routeName: Routes.thread
+          )
         );
       },
       icon: const Icon(Icons.list),

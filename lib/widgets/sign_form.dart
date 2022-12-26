@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:thread_app/screens/home_screen.dart';
 import 'package:thread_app/utils/constants.dart';
 
+import '../utils/routes.dart';
+
 class SignForm extends StatefulWidget {
   const SignForm({
     Key? key,
@@ -71,10 +73,9 @@ class _SignFormState extends State<SignForm> {
       }
 
       if(widget.isLogin) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          )
+        Navigator.pushNamed(
+          context,
+          Routes.home
         );
       } else {
         Navigator.of(context).pop();

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:thread_app/screens/home_screen.dart';
 import '../animations/slide_push.dart';
 import '../utils/constants.dart';
+import '../utils/routes.dart';
 import '../widgets/sign_form.dart';
 import 'register_screen.dart';
 
@@ -42,8 +44,13 @@ class LoginScreen extends StatelessWidget {
         const Text ('Don\'t have an account?'),
         TextButton(
           onPressed: () {
-            Navigator.of(context).push(
-              SlidePush(widget: const RegisterScreen(), direction: AxisDirection.up)
+            Navigator.pushReplacement(
+              context,
+              SlidePush(
+                widget: const RegisterScreen(),
+                direction: AxisDirection.right,
+                routeName: Routes.register
+              )
             );
           },
           child: const Text('Register here!')

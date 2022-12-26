@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thread_app/screens/login_screen.dart';
 import 'providers/theme_provider.dart';
+
 import 'utils/app_themes.dart';
+import 'utils/routes.dart';
+
 
 void main() {
   runApp(
@@ -30,6 +33,7 @@ const MyApp({ Key? key }) : super(key: key);
           theme: AppThemes().ligthTheme(),
           darkTheme: AppThemes().darkTheme(),
           debugShowCheckedModeBanner: false,
+          routes: Routes.getRoutes(),
           home: const LoginScreen(),
         );
       }

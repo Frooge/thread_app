@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class SlidePush extends PageRouteBuilder {
   final Widget widget;
   final AxisDirection direction;
+  final String routeName;
 
-  SlidePush({required this.widget, required this.direction})
-      : super(
+  SlidePush({required this.widget, required this.direction, required this.routeName})
+    : super(
+      settings: RouteSettings(name: routeName),
       pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
         return widget;
       },
@@ -29,7 +31,7 @@ class SlidePush extends PageRouteBuilder {
           ).animate(animation),
           child: child,
         );
-       // transitionDuration:Duration(seconds: 1);
-      }
-  );
+        // transitionDuration:Duration(seconds: 1);
+      },
+    );
 }
