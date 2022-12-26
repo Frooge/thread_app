@@ -10,7 +10,7 @@ class UserModel {
   List<dynamic> likedMessagesList;
 
   UserModel({
-    required this.id,
+    this.id = '',
     required this.anonymousId,
     required this.anonymousName,
     required this.email,

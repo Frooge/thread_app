@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../models/thread_message_model.dart';
 import '../utils/constants.dart';
 
 class ThreadChat extends StatelessWidget {
@@ -7,26 +9,32 @@ const ThreadChat({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
-    return Expanded(
-      child: Padding(
-        padding: Constants.pt_2,
-        child: Scrollbar(
+    return Builder(
+      builder: (context) {
+        List<ThreadMessageModel> threadMessages = context.watch<List<ThreadMessageModel>>();
+
+        return Expanded(
           child: Padding(
-            padding: Constants.px_1,
-            child: ListView.builder(
-              reverse: true,
-              itemCount: 15,
-              itemBuilder: ((context, index) {
-                return chatMessage(context, index);
-              }),
+            padding: Constants.pt_2,
+            child: Scrollbar(
+              child: Padding(
+                padding: Constants.px_1,
+                child: ListView.builder(
+                  reverse: true,
+                  itemCount: threadMessages.length,
+                  itemBuilder: ((context, index) {
+                    return chatMessage(context, threadMessages, index);
+                  }),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
 
-  Widget chatMessage(BuildContext context, int index) {
+  Widget chatMessage(BuildContext context, List<ThreadMessageModel> threadMessages, int index) {
     return Container(
       margin: Constants.pb_1,
       child: Card(
@@ -37,7 +45,7 @@ const ThreadChat({ Key? key }) : super(key: key);
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             chatUser(),
-            chatText(index, 'person $index'),
+            chatText(senderName: threadMessages[index].userName, text: threadMessages[index].message),
           ],
         ),
       ),
@@ -58,7 +66,7 @@ const ThreadChat({ Key? key }) : super(key: key);
     );
   }
 
-  Expanded chatText(int index, String person) {
+  Expanded chatText({required String senderName, required String text}) {
 
     return Expanded(
       child: Container(
@@ -68,8 +76,8 @@ const ThreadChat({ Key? key }) : super(key: key);
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            sender(person),
-            textMessage(index),
+            sender(senderName),
+            textMessage(text: text),
             heartEmote()
           ],
         )
@@ -86,9 +94,9 @@ const ThreadChat({ Key? key }) : super(key: key);
     );
   }
 
-  Text textMessage(int index) {
+  Text textMessage({required String text}) {
     return Text(
-      '$index Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et',
+      text,
       style: const TextStyle(
         fontSize: Constants.h_3,
       ),

@@ -7,7 +7,7 @@ class ThreadModel {
   String threadName;
 
   ThreadModel({
-    required this.id,
+    this.id = '',
     required this.favorites,
     required this.threadId,
     required this.threadName,

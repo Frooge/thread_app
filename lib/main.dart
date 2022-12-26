@@ -22,7 +22,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ThemeProvider())
+        ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider())
       ],
       child: const MyApp()
     )

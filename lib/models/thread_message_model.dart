@@ -6,26 +6,29 @@ class ThreadMessageModel {
   String message;
   String userName;
   String userImage;
+  Timestamp timestamp;
   int likes;
   
   
 
   ThreadMessageModel({
-    required this.id,
+    this.id = '',
     required this.threadId,
     required this.message,
     required this.userName,
     required this.userImage,
     required this.likes,
+    required this.timestamp,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'threadName': threadId,
-      'threadId': message,
+      'threadId': threadId,
+      'message': message,
       'userName': userName,
       'userImage': userImage,
       'likes': likes,
+      'timestamp': timestamp,
     };
   }
 
@@ -35,7 +38,8 @@ class ThreadMessageModel {
       message = doc.data()!['message'] ?? '',
       userName = doc.data()!['userName'] ?? '',
       userImage = doc.data()!['userImage'] ?? '',
-      likes = doc.data()!['likes'] ?? 0;
+      likes = doc.data()!['likes'] ?? 0,
+      timestamp = doc.data()!['timestamp'] ?? Timestamp.now();
 
   ThreadMessageModel.empty()
     : id = '',
@@ -43,5 +47,6 @@ class ThreadMessageModel {
       message = '',
       userName = '',
       userImage ='',
-      likes = 0;
+      likes = 0,
+      timestamp = Timestamp.fromDate(DateTime.now());
 }
