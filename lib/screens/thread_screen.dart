@@ -5,8 +5,8 @@ import '../widgets/back_app_bar.dart';
 import '../widgets/search_box.dart';
 import '../widgets/thread_list.dart';
 
-class MenuScreen extends StatelessWidget {
-const MenuScreen({ Key? key }) : super(key: key);
+class ThreadScreen extends StatelessWidget {
+const ThreadScreen({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
