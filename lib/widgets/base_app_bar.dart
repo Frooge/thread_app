@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thread_app/screens/list_screen.dart';
+import 'package:thread_app/screens/settings_screen.dart';
+import '../animations/slide_push.dart';
 import '../providers/theme_provider.dart';
 import 'toggle_theme_btn.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   BaseAppBar({
     Key? key,
-    backgroundColor,
     this.title = const Text(''),
     appBar,
   }) : super(key: key);
 
-  final Color backgroundColor = Colors.red;
   final Text title;
   final AppBar appBar = AppBar();
 
@@ -19,18 +20,32 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: title,
-      leading: navigationList(),
+      leading: navigationList(context),
       actions: [
-        modeIndicator(context),
-        const ToggleThemeBtn()
+        navigationSettings(context),
+        // modeIndicator(context),
+        // const ToggleThemeBtn()
       ],
     );
   }
 
-  IconButton navigationList() {
+  IconButton navigationSettings(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            SlidePush(widget: const SettingsScreen(), direction: AxisDirection.left)
+          );
+        },
+        icon: const Icon(Icons.settings)
+      );
+  }
+
+  IconButton navigationList(BuildContext context) {
     return IconButton(
       onPressed: () {
-        
+        Navigator.of(context).push(
+          SlidePush(widget: const MenuScreen(), direction: AxisDirection.right)
+        );
       },
       icon: const Icon(Icons.list),
     );
