@@ -24,7 +24,7 @@ class ThreadList extends StatelessWidget {
               child: ListView.builder(
                 itemCount: threads.length,
                 itemBuilder: (context, index) {
-                  return threadCard(threads, index);
+                  return threadCard(context, threads, index);
                 },
               ),
             ),
@@ -34,11 +34,12 @@ class ThreadList extends StatelessWidget {
     );
   }
 
-  Card threadCard(List<ThreadModel> threads, int index) {
+  Card threadCard(BuildContext context, List<ThreadModel> threads, int index) {
     return Card(
       child: InkWell(
         onTap: () {
-          CurrentThread().switchThread(threads[index].id);
+          final CurrentThread currentThread = context.read<CurrentThread>();
+          currentThread.switchThread(threads[index].id);
         },
         child: Padding(
           padding: Constants.p_1,
