@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/constants.dart';
+import 'add_thread_btn.dart';
 import 'search_box.dart';
 import 'thread_list.dart';
 
@@ -11,7 +12,7 @@ const ThreadDrawer({ Key? key }) : super(key: key);
   Widget build(BuildContext context){
     return Drawer(
       child: Padding(
-        padding: Constants.px_3,
+        padding: Constants.p_3,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -20,6 +21,7 @@ const ThreadDrawer({ Key? key }) : super(key: key);
             headerPadding(context),
             const SearchBox(),
             const ThreadList(),
+            const AddThreadBtn()
           ],
         ),
       ),
@@ -28,7 +30,7 @@ const ThreadDrawer({ Key? key }) : super(key: key);
 
   Padding headerPadding(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 24)
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top)
     );
   }
   

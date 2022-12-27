@@ -9,17 +9,15 @@ class UserServices {
 
   Future<void> createUser(User createdUser) async {
     String anonId = await GenerateRandom().generateRandomAnonId();
-    UserModel user = UserModel(
-      id: createdUser.uid,
-      anonymousId: anonId,
-      anonymousName: 'anon.$anonId',
-      email: createdUser.email!,
-      image: GenerateRandom().generateRandomImage(),
-      favoriteList: [],
-      likedMessagesList: []
-    );
 
-    _db.collection('users').doc(user.id).set(user.toMap());
+    _db.collection('users').doc(createdUser.uid).set(UserModel(
+        anonymousId: anonId,
+        anonymousName: 'anon.$anonId',
+        email: createdUser.email!,
+        image: GenerateRandom().generateRandomImage(),
+        favoriteList: [],
+        likedMessagesList: []
+      ).toMap());
   }
 
   Stream<UserModel> getCurrentUser(String uid) {    
