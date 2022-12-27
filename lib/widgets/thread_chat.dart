@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../models/thread_message_model.dart';
+import '../models/message_model.dart';
 import '../utils/constants.dart';
 
 class ThreadChat extends StatelessWidget {
@@ -45,7 +47,11 @@ const ThreadChat({ Key? key }) : super(key: key);
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             chatUser(),
-            chatText(senderName: threadMessages[index].userName, text: threadMessages[index].message),
+            chatText(
+              senderName: threadMessages[index].userName,
+              timestamp: threadMessages[index].timestamp,
+              text: threadMessages[index].message
+            ),
           ],
         ),
       ),
@@ -66,7 +72,7 @@ const ThreadChat({ Key? key }) : super(key: key);
     );
   }
 
-  Expanded chatText({required String senderName, required String text}) {
+  Expanded chatText({required String senderName, required Timestamp timestamp, required String text}) {
 
     return Expanded(
       child: Container(
@@ -77,6 +83,7 @@ const ThreadChat({ Key? key }) : super(key: key);
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             sender(senderName),
+            dateSent(timestamp),
             textMessage(text: text),
             heartEmote()
           ],
@@ -90,6 +97,21 @@ const ThreadChat({ Key? key }) : super(key: key);
       'Sent by @$person',
       style: const TextStyle(
         color: Constants.color_grey,
+      ),
+    );
+  }
+
+  Padding dateSent(Timestamp timestamp) {
+    var date = DateTime.fromMillisecondsSinceEpoch(timestamp.seconds * 1000);
+    var dateFormat = DateFormat('MM/dd/yyyy, HH:mm').format(date);
+
+    return Padding(
+      padding: Constants.pb_1,
+      child: Text(
+        dateFormat.toString(),
+        style: const TextStyle(
+          color: Constants.color_grey,
+        )
       ),
     );
   }

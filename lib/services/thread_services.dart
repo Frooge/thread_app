@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:thread_app/models/thread_message_model.dart';
+import 'package:thread_app/models/message_model.dart';
 import 'package:thread_app/models/thread_model.dart';
 
 import '../utils/generate_random.dart';
@@ -16,7 +16,7 @@ class ThreadServices {
       likes: 0,
       timestamp: Timestamp.now()
     );
-    await _db.collection('threadMessages').add(threadMessage.toMap());
+    await _db.collection('threadMessages').doc(threadId).collection('messages').add(threadMessage.toMap());
   }
 
   Stream<List<ThreadModel>> getThreadList() {
@@ -27,7 +27,7 @@ class ThreadServices {
   }
 
   Stream<List<ThreadMessageModel>> getThreadMessages(String threadId) {
-    var ref = _db.collection('threadMessages').where('threadId', isEqualTo: threadId);
+    var ref = _db.collection('threadMessages').doc(threadId).collection('messages').orderBy('timestamp', descending: true);
 
     return ref.snapshots().map((list) =>
       list.docs.map((doc) => ThreadMessageModel.fromMap(doc)).toList());

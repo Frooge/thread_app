@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thread_app/models/thread_message_model.dart';
+import 'package:thread_app/models/message_model.dart';
 import 'package:thread_app/models/thread_model.dart';
 import 'package:thread_app/providers/current_thread.dart';
 import 'package:thread_app/services/thread_services.dart';

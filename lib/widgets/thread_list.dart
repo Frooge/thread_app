@@ -40,6 +40,7 @@ class ThreadList extends StatelessWidget {
         onTap: () {
           final CurrentThread currentThread = context.read<CurrentThread>();
           currentThread.switchThread(threads[index].id);
+          Navigator.pop(context);
         },
         child: Padding(
           padding: Constants.p_1,
