@@ -19,6 +19,26 @@ class ThreadServices {
     await _db.collection('threadMessages').doc(threadId).collection('messages').add(threadMessage.toMap());
   }
 
+  void toggleFavoriteThread(String threadId, {required String userId, required List<dynamic> likeList}) async {
+    if(likeList.contains(threadId)) {
+      await _db.collection('threads').doc(threadId).update({'favorites': FieldValue.increment(-1)});
+      await _db.collection('users').doc(userId).update({'favoriteList': FieldValue.arrayRemove([threadId])});
+    } else {
+      await _db.collection('threads').doc(threadId).update({'favorites': FieldValue.increment(1)});
+      await _db.collection('users').doc(userId).update({'favoriteList': FieldValue.arrayUnion([threadId])});
+    }
+  }
+
+  void toggleLikeMessage(String messageId, {required String threadId, required String userId, required List<dynamic> likedMessagesList}) async {
+    if(likedMessagesList.contains(messageId)) {
+      await _db.collection('threadMessages').doc(threadId).collection('messages').doc(messageId).update({'likes': FieldValue.increment(-1)});
+      await _db.collection('users').doc(userId).update({'likedMessagesList': FieldValue.arrayRemove([messageId])});
+    } else {
+      await _db.collection('threadMessages').doc(threadId).collection('messages').doc(messageId).update({'likes': FieldValue.increment(1)});
+      await _db.collection('users').doc(userId).update({'likedMessagesList': FieldValue.arrayUnion([messageId])});
+    }
+  }
+
   Stream<List<ThreadModel>> getThreadList() {
     var ref = _db.collection('threads');
 
@@ -31,13 +51,5 @@ class ThreadServices {
 
     return ref.snapshots().map((list) =>
       list.docs.map((doc) => ThreadMessageModel.fromMap(doc)).toList());
-  }
-
-  Future<String> getThreadName(String threadId) async {
-    var doc = await _db
-      .collection('threads')
-      .doc(threadId)
-      .get();
-    return doc.data()!['threadName'];
   }
 }

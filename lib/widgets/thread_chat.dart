@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:thread_app/services/thread_services.dart';
 
 import '../models/message_model.dart';
+import '../models/user_model.dart';
 import '../utils/constants.dart';
 
 class ThreadChat extends StatelessWidget {
@@ -47,11 +49,7 @@ const ThreadChat({ Key? key }) : super(key: key);
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             chatUser(),
-            chatText(
-              senderName: threadMessages[index].userName,
-              timestamp: threadMessages[index].timestamp,
-              text: threadMessages[index].message
-            ),
+            chatText(threadMessages[index]),
           ],
         ),
       ),
@@ -72,7 +70,7 @@ const ThreadChat({ Key? key }) : super(key: key);
     );
   }
 
-  Expanded chatText({required String senderName, required Timestamp timestamp, required String text}) {
+  Expanded chatText(ThreadMessageModel threadMessage) {
 
     return Expanded(
       child: Container(
@@ -82,10 +80,10 @@ const ThreadChat({ Key? key }) : super(key: key);
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            sender(senderName),
-            dateSent(timestamp),
-            textMessage(text: text),
-            heartEmote()
+            sender(threadMessage.userName),
+            dateSent(threadMessage.timestamp),
+            textMessage(text: threadMessage.message),
+            heartEmote(threadMessage)
           ],
         )
       ),
@@ -125,35 +123,48 @@ const ThreadChat({ Key? key }) : super(key: key);
     );
   }
 
-  Padding heartEmote() {
-    return Padding(
-      padding: Constants.pt_1,
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(3),
-              color: Colors.grey.shade600,
-            ),
-            width: Constants.emote_size,
-            height: Constants.emote_size,
-            child: IconButton(
-              onPressed: () {
-                
-              },
-              icon: const Icon(
-                Icons.favorite,
-                size: Constants.h_3,
-                color: Colors.redAccent,
+  Widget heartEmote(ThreadMessageModel threadMessage) {
+    return Builder(
+      builder: (context) {
+        UserModel user = context.watch<UserModel>();
+        bool liked = user.likedMessagesList.contains(threadMessage.id);
+
+        return Padding(
+          padding: Constants.pt_1,
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(3),
+                  color: liked ? Colors.yellow.shade300 : Colors.grey.shade600,
+                ),
+                width: Constants.emote_size,
+                height: Constants.emote_size,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    ThreadServices().toggleLikeMessage(
+                      threadMessage.id,
+                      threadId: threadMessage.threadId,
+                      userId: user.id,
+                      likedMessagesList: user.likedMessagesList
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.favorite,
+                    size: Constants.h_3,
+                    color: Colors.redAccent,
+                  ),
+                ),
               ),
-            ),
+              Padding(
+                padding: Constants.pt_1,
+                child: Text('${threadMessage.likes}')
+              )
+            ],
           ),
-          const Padding(
-            padding: Constants.pt_1,
-            child: Text('0')
-          )
-        ],
-      ),
+        );
+      }
     );
   }
 }

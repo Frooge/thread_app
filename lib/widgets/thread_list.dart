@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thread_app/models/thread_model.dart';
 import 'package:thread_app/providers/current_thread.dart';
+import 'package:thread_app/services/thread_services.dart';
 
 import '../models/user_model.dart';
 import '../utils/constants.dart';
@@ -39,7 +40,7 @@ class ThreadList extends StatelessWidget {
       child: InkWell(
         onTap: () {
           final CurrentThread currentThread = context.read<CurrentThread>();
-          currentThread.switchThread(threads[index].id);
+          currentThread.switchThread(threads[index].id, threads[index].threadName);
           Navigator.pop(context);
         },
         child: Padding(
@@ -75,7 +76,7 @@ class ThreadList extends StatelessWidget {
             Text('$favorites'),
             IconButton(
               onPressed: () {
-
+                ThreadServices().toggleFavoriteThread(threadId, userId: user.id, likeList: user.favoriteList);
               },
               icon: Icon(
                 user.favoriteList.contains(threadId) ? Icons.favorite :  Icons.favorite_outline,

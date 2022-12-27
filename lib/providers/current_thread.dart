@@ -9,9 +9,9 @@ class CurrentThread extends ChangeNotifier{
   String get thread => _thread;
   String get name => _name;
 
-  void switchThread(String threadId) async {
-    _thread = threadId;
-    _name = await ThreadServices().getThreadName(_thread);
+  void switchThread(String id, String threadName) async {
+    _thread = id;
+    _name = threadName;
     notifyListeners();
   }
 }
