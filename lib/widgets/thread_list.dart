@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:thread_app/models/thread_model.dart';
 import 'package:thread_app/providers/current_thread.dart';
 import 'package:thread_app/services/thread_services.dart';
+import 'package:thread_app/utils/sort_filter.dart';
 
 import '../models/user_model.dart';
+import '../providers/filter_thread.dart';
 import '../utils/constants.dart';
 
 class ThreadList extends StatelessWidget {
@@ -17,6 +19,15 @@ class ThreadList extends StatelessWidget {
     return Builder(
       builder: (context) {
         List<ThreadModel> threads = context.watch<List<ThreadModel>>();
+        UserModel user = context.watch<UserModel>();
+        FilterThread filterThread = context.watch<FilterThread>();
+        
+        var sf = SortFilter();
+        sf.sortDescFavorites(threads);
+
+        if(filterThread.filterFav) {
+          threads = sf.filterFavorites(threads, user.favoriteList);
+        }
 
         return Expanded(
           child: Scrollbar(

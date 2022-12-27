@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:thread_app/models/message_model.dart';
 import 'package:thread_app/models/thread_model.dart';
 import 'package:thread_app/providers/current_thread.dart';
+import 'package:thread_app/providers/filter_thread.dart';
+import 'package:thread_app/providers/search_query.dart';
 import 'package:thread_app/services/thread_services.dart';
 import 'package:thread_app/services/user_services.dart';
 import 'package:thread_app/widgets/base_app_bar.dart';
@@ -23,24 +25,27 @@ const HomeScreen({ Key? key }) : super(key: key);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<CurrentThread>(create: (_) => CurrentThread()),
+        ChangeNotifierProvider<SearchQuery>(create: (_) => SearchQuery()),
+        ChangeNotifierProvider<FilterThread>(create: (_) => FilterThread()),
         StreamProvider<UserModel>.value(
           value: UserServices().getCurrentUser(Auth().currentUser!.uid),
           initialData: UserModel.empty(),
         ),
-        StreamProvider<List<ThreadModel>>.value(
-          value: ThreadServices().getThreadList(),
-          initialData: const [],
-        ),
-        
       ],
       child: Builder(
         builder: (BuildContext context) {
           CurrentThread currentThread = context.watch<CurrentThread>();
+          SearchQuery searchQuery = context.watch<SearchQuery>();
+          
 
           return MultiProvider(
             providers: [
               StreamProvider<List<ThreadMessageModel>>.value(
                 value: ThreadServices().getThreadMessages(currentThread.thread),
+                initialData: const [],
+              ),
+              StreamProvider<List<ThreadModel>>.value(
+                value: ThreadServices().getThreadList(query: searchQuery.query),
                 initialData: const [],
               ),
             ],
@@ -51,6 +56,11 @@ const HomeScreen({ Key? key }) : super(key: key);
                   title: Text(currentThread.name),
                 ),
                 drawer: const ThreadDrawer(),
+                onDrawerChanged: (isOpened) {
+                  if(isOpened) {
+                    searchQuery.changeQuery('');
+                  }
+                },
                 body: Padding(
                   padding: Constants.px_3,
                   child: Column(

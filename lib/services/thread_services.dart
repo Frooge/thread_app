@@ -51,11 +51,13 @@ class ThreadServices {
     }
   }
 
-  Stream<List<ThreadModel>> getThreadList() {
-    var ref = _db.collection('threads').orderBy('favorites', descending: true).orderBy('threadName', descending: false);
+  Stream<List<ThreadModel>> getThreadList({required String query}) {
+    var ref = _db.collection('threads')
+    .where('threadName', isGreaterThanOrEqualTo: query)
+    .where('threadName', isLessThan: '${query}z');
 
     return ref.snapshots().map((list) =>
-      list.docs.map((doc) => ThreadModel.fromMap(doc)).toList());
+    list.docs.map((doc) => ThreadModel.fromMap(doc)).toList());
   }
 
   Stream<List<ThreadMessageModel>> getThreadMessages(String threadId) {

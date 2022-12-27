@@ -6,7 +6,7 @@ import 'search_box.dart';
 import 'thread_list.dart';
 
 class ThreadDrawer extends StatelessWidget {
-const ThreadDrawer({ Key? key }) : super(key: key);
+  const ThreadDrawer({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
