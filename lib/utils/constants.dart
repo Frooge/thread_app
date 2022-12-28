@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 
 class Constants {
+  static const double small_screen = 640;
+  static const double medium_screen = 1008;
+
   static const double psize_1 = 8.0;
   static const double psize_2 = 16.0;
   static const double psize_3 = 24.0;

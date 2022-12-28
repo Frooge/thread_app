@@ -40,31 +40,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
       initialData: UserModel.empty(),
       child: Scaffold(
         appBar: BackAppBar(),
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const UserProfile(),
-            menuDivider(),
-            menuTile('Help'),
-            menuDivider(),
-            menuTile('Toggle dark mode (WIP)'),
-            menuDivider(),
-            menuTile(
-              'Log Out',
-              color: Colors.redAccent,
-              onTap: () {
-                signOut(context, () {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    Routes.login
-                  );
-                });
-              }
+        body: Center(
+          child: Container(
+            constraints: const BoxConstraints(
+            maxWidth: Constants.small_screen
             ),
-            menuDivider(),
-          ],
+            padding: Constants.px_3,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const UserProfile(),
+                menuDivider(),
+                menuTile('Help'),
+                menuDivider(),
+                menuTile('Toggle dark mode (WIP)'),
+                menuDivider(),
+                menuTile(
+                  'Log Out',
+                  color: Colors.redAccent,
+                  onTap: () {
+                    signOut(context, () {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        Routes.login
+                      );
+                    });
+                  }
+                ),
+                menuDivider(),
+              ],
+            ),
+          ),
         )
       ),
     );

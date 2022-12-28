@@ -13,9 +13,12 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: Constants.px_3,
-        child: Center(
+      body: Center(
+        child: Container(
+            constraints: const BoxConstraints(
+            maxWidth: Constants.small_screen
+          ),
+          padding: Constants.px_3,
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -37,20 +40,22 @@ class LoginScreen extends StatelessWidget {
   }
 
   Row callToAction(BuildContext context) {
+    final currentWidth = MediaQuery.of(context).size.width;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text ('Don\'t have an account?'),
         TextButton(
           onPressed: () {
-            Navigator.push(
+            currentWidth < Constants.small_screen ? Navigator.push(
               context,
-              SlidePush(
+               SlidePush(
                 widget: const RegisterScreen(),
                 direction: AxisDirection.right,
                 routeName: Routes.register
-              )
-            );
+              ) 
+            ) : Navigator.pushNamed(context, Routes.register);
           },
           child: const Text('Register here!')
         ),

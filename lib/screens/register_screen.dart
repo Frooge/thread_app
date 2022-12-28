@@ -10,9 +10,12 @@ const RegisterScreen({ Key? key }) : super(key: key);
   Widget build(BuildContext context){
     return Scaffold(
       appBar: BackAppBar(),
-      body: Padding(
-        padding: Constants.px_3,
-        child: Center(
+      body: Center(
+        child: Container(
+            constraints: const BoxConstraints(
+            maxWidth: Constants.small_screen
+          ),
+          padding: Constants.px_3,
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -66,23 +66,32 @@ const HomeScreen({ Key? key }) : super(key: key);
                     searchQuery.changeQuery('');
                   }
                 },
-                body: Padding(
-                  padding: Constants.px_3,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      ThreadChat(),
-                      ChatBox()
-                    ],
-                  ),
-                ),
+                body: bodyWidget(),
               ),
             ),
           );
         }
       ),
+    );
+  }
+
+  Widget bodyWidget() {
+    return Center(
+      child: Container(
+        constraints: const BoxConstraints(
+        maxWidth: Constants.small_screen
+        ),
+        padding: Constants.px_3,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            ThreadChat(),
+            ChatBox()
+          ],
+        ),
+      )
     );
   }
 
