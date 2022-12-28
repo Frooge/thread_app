@@ -1,8 +1,11 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thread_app/services/user_services.dart';
 
 import '../models/user_model.dart';
+import '../providers/auth.dart';
 import '../utils/constants.dart';
 
 class UserProfile extends StatelessWidget {
@@ -76,7 +79,7 @@ class UserProfile extends StatelessWidget {
         backgroundColor: Colors.redAccent
       ),
       onPressed: () {
-        
+        UserServices().resetAnonId(Auth().currentUser!);
       },
       child: const Text('Reset ID'),
     );

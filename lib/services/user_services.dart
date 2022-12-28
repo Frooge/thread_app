@@ -22,7 +22,19 @@ class UserServices {
         favoriteList: [],
         likedMessagesList: []
       ).toMap());
+    } on Exception catch(e) {
+      log(e.toString());
+    }
+  }
 
+  Future<void> resetAnonId(User currentUser) async {
+    try{
+    String anonId = await GenerateRandom().generateRandomAnonId();
+    _db.collection('users').doc(currentUser.uid).update({
+      'anonymousId': anonId,
+      'anonymousName': 'anon.$anonId',
+      'image': GenerateRandom().generateRandomImage()
+    });
     } on Exception catch(e) {
       log(e.toString());
     }
