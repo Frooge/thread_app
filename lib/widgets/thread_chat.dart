@@ -6,6 +6,7 @@ import 'package:thread_app/services/thread_services.dart';
 
 import '../models/message_model.dart';
 import '../models/user_model.dart';
+import '../providers/limit_messages.dart';
 import '../utils/constants.dart';
 
 class ThreadChat extends StatelessWidget {
@@ -16,6 +17,7 @@ const ThreadChat({ Key? key }) : super(key: key);
     return Builder(
       builder: (context) {
         List<ThreadMessageModel> threadMessages = context.watch<List<ThreadMessageModel>>();
+        LimitMessages limit = context.watch<LimitMessages>();
 
         return Expanded(
           child: Padding(
@@ -23,12 +25,24 @@ const ThreadChat({ Key? key }) : super(key: key);
             child: Scrollbar(
               child: Padding(
                 padding: Constants.px_1,
-                child: ListView.builder(
-                  reverse: true,
-                  itemCount: threadMessages.length,
-                  itemBuilder: ((context, index) {
-                    return chatMessage(context, threadMessages, index);
-                  }),
+                child: NotificationListener<ScrollEndNotification>(
+                  onNotification: (scrollEnd) {
+                    final metrics = scrollEnd.metrics;
+                    if (metrics.atEdge) {
+                      bool isTop = metrics.pixels == 0;
+                      if (!isTop) {
+                        limit.incrementLimit();
+                      }
+                    }
+                    return true;
+                  },
+                  child: ListView.builder(
+                    reverse: true,
+                    itemCount: threadMessages.length,
+                    itemBuilder: ((context, index) {
+                      return chatMessage(context, threadMessages, index);
+                    }),
+                  ),
                 ),
               ),
             ),
@@ -136,7 +150,7 @@ const ThreadChat({ Key? key }) : super(key: key);
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(3),
-                  color: liked ? Colors.yellow.shade300 : Colors.grey.shade600,
+                  color: liked? Colors.yellow.shade200 : Colors.grey.shade600
                 ),
                 width: Constants.emote_size,
                 height: Constants.emote_size,
@@ -150,10 +164,10 @@ const ThreadChat({ Key? key }) : super(key: key);
                       likedMessagesList: user.likedMessagesList
                     );
                   },
-                  icon: const Icon(
-                    Icons.favorite,
+                  icon: Icon(
+                    liked ? Icons.favorite : Icons.favorite_border,
                     size: Constants.h_3,
-                    color: Colors.redAccent,
+                    color: liked ? Colors.redAccent : Colors.grey.shade300,
                   ),
                 ),
               ),

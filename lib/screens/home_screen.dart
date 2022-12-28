@@ -4,6 +4,8 @@ import 'package:thread_app/models/message_model.dart';
 import 'package:thread_app/models/thread_model.dart';
 import 'package:thread_app/providers/current_thread.dart';
 import 'package:thread_app/providers/filter_thread.dart';
+import 'package:thread_app/providers/limit_messages.dart';
+import 'package:thread_app/providers/limit_threads.dart';
 import 'package:thread_app/providers/search_query.dart';
 import 'package:thread_app/services/thread_services.dart';
 import 'package:thread_app/services/user_services.dart';
@@ -27,6 +29,8 @@ const HomeScreen({ Key? key }) : super(key: key);
         ChangeNotifierProvider<CurrentThread>(create: (_) => CurrentThread()),
         ChangeNotifierProvider<SearchQuery>(create: (_) => SearchQuery()),
         ChangeNotifierProvider<FilterThread>(create: (_) => FilterThread()),
+        ChangeNotifierProvider<LimitMessages>(create: (_) => LimitMessages()),
+        ChangeNotifierProvider<LimitThreads>(create: (_) => LimitThreads()),
         StreamProvider<UserModel>.value(
           value: UserServices().getCurrentUser(Auth().currentUser!.uid),
           initialData: UserModel.empty(),
@@ -36,16 +40,17 @@ const HomeScreen({ Key? key }) : super(key: key);
         builder: (BuildContext context) {
           CurrentThread currentThread = context.watch<CurrentThread>();
           SearchQuery searchQuery = context.watch<SearchQuery>();
-          
+          LimitMessages limitMessages = context.watch<LimitMessages>();
+          LimitThreads limitTthreads = context.watch<LimitThreads>();
 
           return MultiProvider(
             providers: [
               StreamProvider<List<ThreadMessageModel>>.value(
-                value: ThreadServices().getThreadMessages(currentThread.thread),
+                value: ThreadServices().getThreadMessages(currentThread.thread, limit: limitMessages.currentLimit),
                 initialData: const [],
               ),
               StreamProvider<List<ThreadModel>>.value(
-                value: ThreadServices().getThreadList(query: searchQuery.query),
+                value: ThreadServices().getThreadList(query: searchQuery.query, limit: limitTthreads.currentLimit),
                 initialData: const [],
               ),
             ],

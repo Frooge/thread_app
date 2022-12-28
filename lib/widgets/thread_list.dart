@@ -7,6 +7,8 @@ import 'package:thread_app/utils/sort_filter.dart';
 
 import '../models/user_model.dart';
 import '../providers/filter_thread.dart';
+import '../providers/limit_messages.dart';
+import '../providers/limit_threads.dart';
 import '../utils/constants.dart';
 
 class ThreadList extends StatelessWidget {
@@ -21,6 +23,8 @@ class ThreadList extends StatelessWidget {
         List<ThreadModel> threads = context.watch<List<ThreadModel>>();
         UserModel user = context.watch<UserModel>();
         FilterThread filterThread = context.watch<FilterThread>();
+        LimitMessages limitMessages = context.watch<LimitMessages>();
+        LimitThreads limitThreads = context.watch<LimitThreads>();
         
         var sf = SortFilter();
         sf.sortDescFavorites(threads);
@@ -33,11 +37,23 @@ class ThreadList extends StatelessWidget {
           child: Scrollbar(
             child: Padding(
               padding: Constants.pr_1,
-              child: ListView.builder(
-                itemCount: threads.length,
-                itemBuilder: (context, index) {
-                  return threadCard(context, threads, index);
-                },
+              child: NotificationListener<ScrollEndNotification>(
+                  onNotification: (scrollEnd) {
+                    final metrics = scrollEnd.metrics;
+                    if (metrics.atEdge) {
+                      bool isTop = metrics.pixels == 0;
+                      if (!isTop) {
+                        limitThreads.incrementLimit();
+                      }
+                    }
+                    return true;
+                  },
+                  child: ListView.builder(
+                  itemCount: threads.length,
+                  itemBuilder: (context, index) {
+                    return threadCard(context, thread: threads[index], limitMessages: limitMessages, limitThreads: limitThreads);
+                  },
+                ),
               ),
             ),
           ),
@@ -46,21 +62,29 @@ class ThreadList extends StatelessWidget {
     );
   }
 
-  Card threadCard(BuildContext context, List<ThreadModel> threads, int index) {
+  Card threadCard(BuildContext context,
+  {required ThreadModel thread,
+  required LimitMessages limitMessages, 
+  required LimitThreads limitThreads
+  }) {
     return Card(
       child: InkWell(
         onTap: () {
           final CurrentThread currentThread = context.read<CurrentThread>();
-          currentThread.switchThread(threads[index].id, threads[index].threadName);
+          currentThread.switchThread(
+            thread.id, thread.threadName,
+            limitMessages: limitMessages,
+            limitThreads: limitThreads
+          );
           Navigator.pop(context);
         },
         child: Padding(
           padding: Constants.p_1,
           child: Row(
             children: [
-              threadName(title: threads[index].threadName),
+              threadName(title: thread.threadName),
               const Spacer(),
-              favoriteBtn(threadId: threads[index].id, favorites: threads[index].favorites),
+              favoriteBtn(threadId: thread.id, favorites: thread.favorites),
             ],
           ),
         ),
