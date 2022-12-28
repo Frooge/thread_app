@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 class LimitMessages extends ChangeNotifier {
-  static const int _limit = 5;
+  static const int _limit = 10;
   int _currentLimit = _limit;
 
   int get currentLimit => _currentLimit;
