@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,7 @@ class UserProfile extends StatelessWidget {
     return Builder(
       builder: (context) {
         UserModel user = context.watch<UserModel>();
+        
         return Padding(
           padding: Constants.p_3,
           child: Row(
@@ -21,7 +23,7 @@ class UserProfile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              userImage(),
+              userImage(image: user.image),
               userName(username: user.anonymousName,email: user.email),
               const Spacer(),
               resetBtn(),
@@ -32,16 +34,13 @@ class UserProfile extends StatelessWidget {
     );
   }
 
-  Container userImage() {
-    return Container(
-      padding: Constants.p_1,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(3),
-        color:Colors.grey.shade700,
-      ),
-      child: const Icon(
-        size: 50,
-        Icons.person
+  Widget userImage({required String image}) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8.0),
+      child: Image.asset(
+        image.isEmpty ? 'assets/images/avatar-0.png' : 'assets/images/avatar-$image.png',
+        width: Constants.avatar_size,
+        height: Constants.avatar_size,
       ),
     );
   }
@@ -79,7 +78,7 @@ class UserProfile extends StatelessWidget {
       onPressed: () {
         
       },
-      child: Text('Reset ID'),
+      child: const Text('Reset ID'),
     );
   }
 }

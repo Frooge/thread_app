@@ -40,7 +40,7 @@ const ThreadChat({ Key? key }) : super(key: key);
                     reverse: true,
                     itemCount: threadMessages.length,
                     itemBuilder: ((context, index) {
-                      return chatMessage(context, threadMessages, index);
+                      return chatMessage(context, threadMessage: threadMessages[index]);
                     }),
                   ),
                 ),
@@ -52,7 +52,7 @@ const ThreadChat({ Key? key }) : super(key: key);
     );
   }
 
-  Widget chatMessage(BuildContext context, List<ThreadMessageModel> threadMessages, int index) {
+  Widget chatMessage(BuildContext context, {required ThreadMessageModel threadMessage}) {
     return Container(
       margin: Constants.pb_1,
       child: Card(
@@ -62,24 +62,24 @@ const ThreadChat({ Key? key }) : super(key: key);
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            chatUser(),
-            chatText(threadMessages[index]),
+            chatUser(image: threadMessage.userImage),
+            chatText(threadMessage),
           ],
         ),
       ),
     );
   }
 
-  Padding chatUser() {
+  Padding chatUser({required String image}) {
     return Padding(
       padding: Constants.plt_1,
-      child: Container(
-        padding: Constants.p_1,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(3),
-          color:Colors.grey.shade700,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Image.asset(
+        image.isEmpty ? 'assets/images/avatar-0.png' : 'assets/images/avatar-$image.png',
+        width: Constants.avatar_chat_size,
+        height: Constants.avatar_chat_size,
         ),
-        child: const Icon(Icons.person)
       ),
     );
   }
