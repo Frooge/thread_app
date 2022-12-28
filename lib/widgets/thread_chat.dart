@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -14,37 +16,40 @@ const ThreadChat({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
+    return Expanded(
+      child: Padding(
+        padding: Constants.pt_2,
+        child: (!kIsWeb) ? Scrollbar(
+          child: messageList(),
+        ) : messageList(),
+      ),
+    );
+  }
+
+  Widget messageList() {
     return Builder(
       builder: (context) {
         List<ThreadMessageModel> threadMessages = context.watch<List<ThreadMessageModel>>();
         LimitMessages limit = context.watch<LimitMessages>();
-
-        return Expanded(
-          child: Padding(
-            padding: Constants.pt_2,
-            child: Scrollbar(
-              child: Padding(
-                padding: Constants.px_1,
-                child: NotificationListener<ScrollEndNotification>(
-                  onNotification: (scrollEnd) {
-                    final metrics = scrollEnd.metrics;
-                    if (metrics.atEdge) {
-                      bool isTop = metrics.pixels == 0;
-                      if (!isTop) {
-                        limit.incrementLimit();
-                      }
-                    }
-                    return true;
-                  },
-                  child: ListView.builder(
-                    reverse: true,
-                    itemCount: threadMessages.length,
-                    itemBuilder: ((context, index) {
-                      return chatMessage(context, threadMessage: threadMessages[index]);
-                    }),
-                  ),
-                ),
-              ),
+        return Padding(
+          padding: Constants.px_1,
+          child: NotificationListener<ScrollEndNotification>(
+            onNotification: (scrollEnd) {
+              final metrics = scrollEnd.metrics;
+              if (metrics.atEdge) {
+                bool isTop = metrics.pixels == 0;
+                if (!isTop) {
+                  limit.incrementLimit();
+                }
+              }
+              return true;
+            },
+            child: ListView.builder(
+              reverse: true,
+              itemCount: threadMessages.length,
+              itemBuilder: ((context, index) {
+                return chatMessage(context, threadMessage: threadMessages[index]);
+              }),
             ),
           ),
         );
